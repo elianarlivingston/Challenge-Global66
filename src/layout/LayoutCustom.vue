@@ -9,6 +9,7 @@
         </transition>
       </router-view>
     </main>
+
     <NavbarBottom></NavbarBottom>
   </div>
 </template>
@@ -18,7 +19,7 @@ import { NavbarBottom } from "../components/index";
 
 export default {
   name: "LayoutCustom",
-  components: { NavbarBottom },
+  components: { NavbarBottom }
 };
 </script>
 
@@ -34,9 +35,5 @@ export default {
 main {
   width: 100%;
   height: 100%;
-  padding: 2.25rem 2rem;
-  max-width: var(--max-width);
-  overflow-y: auto;
-  background-color: var(--gray-100);
 }
 </style>

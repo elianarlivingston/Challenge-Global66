@@ -63,7 +63,6 @@ nav a {
 .navbar-bottom {
   padding: 1.25em 2em;
   width: 100%;
-  max-width: var(--max-width);
   position: sticky;
   left: 0;
   bottom: 0;
@@ -75,5 +74,7 @@ nav a {
   display: flex;
   gap: 1rem;
   align-items: center;
+  margin: 0 auto;
+  max-width: var(--max-width);
 }
 </style>
