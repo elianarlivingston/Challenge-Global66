@@ -26,8 +26,8 @@
       </ul>
 
       <div class="flex justify-between items-center gap-4">
-        <Button>Share to my friends</Button>
-        <ButtonFavorite :favorite="favorite" />
+        <Button @click="emit('shared', $event)">Share to my friends</Button>
+        <ButtonFavorite :favorite="pokemon?.favorite" @click="emit('favorite', $event)" />
       </div>
     </div>
   </article>
@@ -44,13 +44,11 @@ export default {
       required: true,
       default: () => ({}),
     },
-    favorite: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
   },
   components: { Button, ButtonFavorite },
+  setup(props, { emit }) {
+    return { emit }
+  }
 };
 </script>
 

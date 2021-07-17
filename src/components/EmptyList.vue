@@ -5,25 +5,17 @@
     <p class="empty-card__text">You look lost on your journey!</p>
 
     <router-link to="/discover">
-      <Button @click="goToHome">Go back home</Button>
+      <Button>Go back home</Button>
     </router-link>
   </article>
 </template>
 
 <script>
 import { Button } from "./index";
-import { useRouter } from "vue-router";
 
 export default {
   name: "EmptyList",
-  components: { Button },
-  setup() {
-    const router = useRouter();
-
-    const goToHome = () => router.push("/discover");
-
-    return { goToHome };
-  },
+  components: { Button }
 };
 </script>
 

@@ -1,8 +1,8 @@
 <template>
-  <li class="list" @click="emit('click', $event)">
-    <span>{{ name }}</span>
+  <li class="list">
+    <span @click="emit('viewDetail', $event)">{{ name }}</span>
 
-    <ButtonFavorite :favorite="favorite" />
+    <ButtonFavorite :favorite="favorite" @click="emit('favorite', $event)" />
   </li>
 </template>
 
@@ -32,7 +32,6 @@ export default {
 <style scoped>
 .list {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 1rem;
   font-size: 22px;
@@ -40,5 +39,9 @@ export default {
   padding: 0.4em 0.4em 0.4em 1em;
   border-radius: var(--rounded);
   background-color: var(--gray-50);
+}
+.list span {
+  flex-grow: 1;
+  cursor: pointer;
 }
 </style>

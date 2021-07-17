@@ -1,5 +1,5 @@
 <template>
-  <Button color="secondary" :onlyIcon="true" @click="emit('click', $event)">
+  <Button color="secondary" :onlyIcon="true" >
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="26"
@@ -28,9 +28,6 @@ export default {
       required: false,
       default: false,
     },
-  },
-  setup(props, { emit }){
-    return { emit }
   }
 };
 </script>

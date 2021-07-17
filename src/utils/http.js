@@ -1,7 +1,7 @@
 import params from "./params";
 
 export default {
-  get: (url, _params = {}) => {
+  get: (url = '', _params = {}) => {
     const newUrl = params.setParams(url, _params);
 
     return fetch(newUrl)
