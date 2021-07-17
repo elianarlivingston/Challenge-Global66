@@ -17,6 +17,7 @@
       <Modal v-model="showModal">
         <CardPokemon
           :pokemon="pokemon"
+          @shared="shared"
           @favorite="() => toggleFavorite(pokemon)"
         />
       </Modal>
