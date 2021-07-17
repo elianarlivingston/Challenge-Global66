@@ -10,11 +10,11 @@ const pokemonService = new PokemonService()
 
 export default function usePokemon() {
     const getAllPokemons = async (params) => {
-        pokemons.value = await pokemonService.getAll(params)
+        return pokemons.value = await pokemonService.getAll(params)
     }
 
     const getOnePokemon = async (name) => {
-        pokemon.value = await pokemonService.getOne(name)
+        return pokemon.value = await pokemonService.getOne(name)
     }
 
     const addFavorite = (pokemon) => {
@@ -44,7 +44,7 @@ export default function usePokemon() {
     })
     
     const _pokemon = computed(() => {
-        if(pokemon.value === null) return {}
+        if(pokemon.value === null || pokemon.value === undefined) return {}
         if( Object.keys(pokemon.value).length === 0) return {}
 
         const isFavorite = favorite.value.some(el => el.name === pokemon.value?.name)

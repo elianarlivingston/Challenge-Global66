@@ -3,31 +3,33 @@
     <Search v-model="search" @submit="searchPokemon" />
 
     <div class="flex flex-col gap-4 container">
-      <template v-if="searchList?.length > 0">
-        <ListPokemon
-          v-for="pokemon in searchList"
-          :key="pokemon.name"
-          :name="pokemon.name"
-          :favorite="pokemon.favorite"
-          @favorite="() => toggleFavorite(pokemon)"
-          @viewDetail="() => viewDetail(pokemon.name)"
-        />
+      <template v-if="!error">
+        <template v-if="searchList?.length > 0">
+          <ListPokemon
+            v-for="pokemon in searchList"
+            :key="pokemon.name"
+            :name="pokemon.name"
+            :favorite="pokemon.favorite"
+            @favorite="() => toggleFavorite(pokemon)"
+            @viewDetail="() => viewDetail(pokemon.name)"
+          />
+        </template>
+
+        <template v-else>
+          <ListPokemon
+            v-for="pokemon in pokemons?.results"
+            :key="pokemon.name"
+            :name="pokemon.name"
+            :favorite="pokemon.favorite"
+            @favorite="() => toggleFavorite(pokemon)"
+            @viewDetail="() => viewDetail(pokemon.name)"
+          />
+        </template>
       </template>
 
-      <template v-else>
-        <ListPokemon
-          v-for="pokemon in pokemons?.results"
-          :key="pokemon.name"
-          :name="pokemon.name"
-          :favorite="pokemon.favorite"
-          @favorite="() => toggleFavorite(pokemon)"
-          @viewDetail="() => viewDetail(pokemon.name)"
-        />
-      </template>
+      <EmptyList v-else @click="goToHome" />
 
       <Spinner v-if="loading" />
-
-      <EmptyList v-if="error" />
 
       <Modal v-model="showModal">
         <CardPokemon
@@ -53,6 +55,7 @@ import {
   Spinner,
 } from "../components/index";
 import usePokemon from "../hooks/usePokemon";
+import { useLoading } from "../hooks";
 
 export default {
   name: "Discover",
@@ -67,6 +70,7 @@ export default {
       addFavorite,
       removeFavorite,
     } = usePokemon();
+    const { close } = useLoading();
     const search = ref("");
     const searchList = ref([]);
     const showModal = ref(false);
@@ -105,10 +109,8 @@ export default {
         await getOnePokemon(search.value);
         searchList.value = [{ ...pokemon.value }];
 
-        console.log(searchList.value);
-
         loading.value = false;
-      } catch (error) {
+      } catch (err) {
         error.value = true;
         loading.value = false;
       }
@@ -142,7 +144,16 @@ export default {
       document.body.removeChild(input);
     };
 
-    onMounted(getAll);
+    const goToHome = () => {
+      error.value = false;
+      search.value = "";
+    };
+
+    onMounted(async () => {
+      await getAll();
+
+      close();
+    });
 
     return {
       showModal,
@@ -156,6 +167,7 @@ export default {
       error,
       toggleFavorite,
       shared,
+      goToHome,
     };
   },
 };

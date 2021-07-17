@@ -5,7 +5,7 @@
     <p class="empty-card__text">You look lost on your journey!</p>
 
     <router-link to="/discover">
-      <Button>Go back home</Button>
+      <Button @click="$emit('click')">Go back home</Button>
     </router-link>
   </article>
 </template>

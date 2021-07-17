@@ -1,35 +1,18 @@
 <template>
   <div class="grid">
-    <Search v-model="search" @submit="searchPokemon" />
+    <Search v-model="search" />
 
     <div class="flex flex-col gap-4 container">
-      <template v-if="searchList?.length > 0">
-        <ListPokemon
-          v-for="pokemon in searchList"
-          :key="pokemon.name"
-          :name="pokemon.name"
-          :favorite="pokemon.favorite"
-          @favorite="() => toggleFavorite(pokemon)"
-          @viewDetail="() => viewDetail(pokemon.name)"
-        />
-      </template>
-
-      <template v-else-if="favorite?.length > 0 && !search">
-        <ListPokemon
-          v-for="pokemon in favorite"
-          :key="pokemon.name"
-          :name="pokemon.name"
-          :favorite="pokemon.favorite"
-          @favorite="() => toggleFavorite(pokemon)"
-          @viewDetail="() => viewDetail(pokemon.name)"
-        />
-      </template>
-
-      <EmptyList
-        v-if="(searchList?.length < 1 && search) || favorite?.length < 1"
+      <ListPokemon
+        v-for="pokemon in pokemonsFavorite"
+        :key="pokemon.name"
+        :name="pokemon.name"
+        :favorite="pokemon.favorite"
+        @favorite="() => toggleFavorite(pokemon)"
+        @viewDetail="() => viewDetail(pokemon.name)"
       />
 
-      <Spinner v-if="loading" />
+      <EmptyList v-if="pokemonsFavorite?.length === 0" />
 
       <Modal v-model="showModal">
         <CardPokemon
@@ -42,7 +25,7 @@
 </template>
 
 <script>
-import { ref } from "@vue/reactivity";
+import { ref, computed } from "vue";
 
 import {
   Search,
@@ -50,47 +33,21 @@ import {
   EmptyList,
   Modal,
   CardPokemon,
-  Spinner,
 } from "../components/index";
 import usePokemon from "../hooks/usePokemon";
 
 export default {
   name: "Favorite",
-  components: { Search, ListPokemon, EmptyList, Modal, CardPokemon, Spinner },
+  components: { Search, ListPokemon, EmptyList, Modal, CardPokemon },
   setup() {
     const { pokemon, favorite, getOnePokemon, addFavorite, removeFavorite } =
       usePokemon();
     const search = ref("");
-    const searchList = ref([]);
     const showModal = ref(false);
-    const loading = ref(false);
-    const error = ref(false);
 
     const viewDetail = async (name) => {
       await getOnePokemon(name);
       showModal.value = true;
-    };
-
-    const searchPokemon = async () => {
-      if (!search.value) {
-        searchList.value = [];
-        return;
-      }
-
-      try {
-        error.value = false;
-        loading.value = true;
-
-        const pokemonOnly = favorite.value.find(
-          (el) => el.name === search.value
-        );
-        searchList.value = pokemonOnly ? [pokemonOnly] : [];
-
-        loading.value = false;
-      } catch (error) {
-        error.value = true;
-        loading.value = false;
-      }
     };
 
     const toggleFavorite = (pokemon) => {
@@ -121,18 +78,21 @@ export default {
       document.body.removeChild(input);
     };
 
+    const pokemonsFavorite = computed(() =>
+      favorite.value.filter((pokemon) =>
+        pokemon.name.toLowerCase().includes(search.value.toLowerCase())
+      )
+    );
+
     return {
       showModal,
       viewDetail,
       pokemon,
       search,
-      searchPokemon,
-      searchList,
-      loading,
-      error,
       favorite,
       toggleFavorite,
       shared,
+      pokemonsFavorite,
     };
   },
 };

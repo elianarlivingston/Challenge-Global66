@@ -26,15 +26,12 @@ export default {
     components: { Button },
     setup() {
         const router = useRouter()
-        const { show, close } = useLoading()
+        const { show } = useLoading()
 
         const goToHome = () => {
             show()
-
-            setTimeout(() => {
-                close()
-                router.push('/discover')
-            }, 500)
+            
+            router.push('/discover')
         }
 
         return { goToHome }
