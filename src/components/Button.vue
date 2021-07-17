@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core'
+import { computed } from "@vue/runtime-core";
 export default {
-  name: 'Button',
+  name: "Button",
   props: {
     onlyIcon: {
       type: Boolean,
@@ -19,7 +19,7 @@ export default {
     color: {
       type: String,
       required: false,
-      default: 'primary'
+      default: "primary",
     },
     block: {
       type: Boolean,
@@ -29,7 +29,7 @@ export default {
     classList: {
       type: String,
       required: false,
-      default: ''
+      default: "",
     },
     disabled: {
       type: Boolean,
@@ -39,30 +39,30 @@ export default {
   },
   setup(props) {
     const COLORS = {
-      'primary': 'btn--primary',
-      'secondary': 'btn--secondary'
-    }
+      primary: "btn--primary",
+      secondary: "btn--secondary",
+    };
 
     const className = computed(() => {
-      const color = COLORS[props.color]
-      const onlyIcon = props.onlyIcon ? 'btn--onlyicon' : ''
-      const block = props.block ? 'btn--block' : ''
-      const classes = props.classList
+      const color = COLORS[props.color];
+      const onlyIcon = props.onlyIcon ? "btn--onlyicon" : "";
+      const block = props.block ? "btn--block" : "";
+      const classes = props.classList;
 
-      return [color, onlyIcon, block, classes].join(' ')
-    })
-    
-    return { className }
-  }
-}
+      return [color, onlyIcon, block, classes].join(" ");
+    });
+
+    return { className };
+  },
+};
 </script>
 
 <style scoped>
 .btn {
   display: inline-flex;
-  gap: .5rem;
+  gap: 0.5rem;
   align-items: center;
-  padding: .6em 1.25em;
+  padding: 0.6em 1.25em;
   border: none;
   border-radius: var(--rounded-full);
   font-size: 1.125rem;
@@ -76,7 +76,7 @@ export default {
   width: 2.8rem;
   height: 2.8rem;
   justify-content: center;
-  padding: .58em;
+  padding: 0.58em;
 }
 
 .btn--block {
@@ -88,19 +88,19 @@ export default {
 .btn--primary {
   background-color: var(--color-primary);
   color: var(--gray-100);
-  transition: background .3s ease-in-out;
+  transition: background 0.3s ease-in-out;
 }
 
 .btn--primary:hover,
 .btn--primary:active {
   background-color: var(--color-primary-dark);
-  transition: background .3s ease-in-out;
+  transition: background 0.3s ease-in-out;
 }
 
 .btn--secondary {
   background-color: var(--gray-200);
   color: var(--gray-400);
-  transition: background .3s ease-in-out;
+  transition: background 0.3s ease-in-out;
 }
 
 .btn:disabled {

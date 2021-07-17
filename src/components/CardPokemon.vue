@@ -26,7 +26,7 @@
       </ul>
 
       <div class="flex justify-between items-center gap-4">
-        <Button @click="emit('shared', $event)">Share to my friends</Button>
+        <Button @click="emit('shared', pokemon)">Share to my friends</Button>
         <ButtonFavorite :favorite="pokemon?.favorite" @click="emit('favorite', $event)" />
       </div>
     </div>

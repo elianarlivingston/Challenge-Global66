@@ -47,7 +47,7 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    }
+    },
   },
   setup(props, { emit }) {
     const toggleModal = () => {
@@ -72,7 +72,7 @@ export default {
   background-color: var(--mask);
 }
 
-.modal {  
+.modal {
   width: 100%;
   max-width: var(--max-width);
   height: 100%;

@@ -31,7 +31,7 @@ main {
 }
 @media (min-width: 640px) {
   main {
-      padding: 0;
+    padding: 0;
   }
 }
 </style>

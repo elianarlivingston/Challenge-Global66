@@ -14,9 +14,7 @@
         />
       </template>
 
-      <EmptyList v-else-if="searchList?.length < 1 && search.value" />
-
-      <template v-if="favorite?.length > 0 && !search.value ">
+      <template v-else-if="favorite?.length > 0 && !search">
         <ListPokemon
           v-for="pokemon in favorite"
           :key="pokemon.name"
@@ -27,7 +25,9 @@
         />
       </template>
 
-      <EmptyList v-else />
+      <EmptyList
+        v-if="(searchList?.length < 1 && search) || favorite?.length < 1"
+      />
 
       <Spinner v-if="loading" />
 
@@ -81,8 +81,10 @@ export default {
         error.value = false;
         loading.value = true;
 
-        const pokemonOnly = favorite.value.find((el) => el.name === search.value)
-        searchList.value = pokemonOnly ? [pokemonOnly] : []
+        const pokemonOnly = favorite.value.find(
+          (el) => el.name === search.value
+        );
+        searchList.value = pokemonOnly ? [pokemonOnly] : [];
 
         loading.value = false;
       } catch (error) {
@@ -101,6 +103,24 @@ export default {
       }
     };
 
+    const shared = (pokemon) => {
+      const type = pokemon?.types?.map((type) => type.type.name).join(", ");
+      const array = [
+        `Name: ${pokemon?.name}`,
+        `Weight: ${pokemon?.weight}`,
+        `Height: ${pokemon?.height}`,
+        `Types: ${type}`,
+      ];
+
+      const input = document.createElement("input");
+
+      input.setAttribute("value", array.join(", "));
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input);
+    };
+
     return {
       showModal,
       viewDetail,
@@ -112,6 +132,7 @@ export default {
       error,
       favorite,
       toggleFavorite,
+      shared,
     };
   },
 };

@@ -15,7 +15,7 @@ import { Button } from "./index";
 
 export default {
   name: "EmptyList",
-  components: { Button }
+  components: { Button },
 };
 </script>
 

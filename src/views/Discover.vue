@@ -30,7 +30,11 @@
       <EmptyList v-if="error" />
 
       <Modal v-model="showModal">
-        <CardPokemon :pokemon="pokemon" @favorite="() => toggleFavorite(pokemon)" />
+        <CardPokemon
+          :pokemon="pokemon"
+          @shared="shared"
+          @favorite="() => toggleFavorite(pokemon)"
+        />
       </Modal>
     </div>
   </div>
@@ -54,7 +58,15 @@ export default {
   name: "Discover",
   components: { Search, ListPokemon, EmptyList, Modal, CardPokemon, Spinner },
   setup() {
-    const { pokemons, pokemon, favorite, getAllPokemons, getOnePokemon, addFavorite, removeFavorite } = usePokemon();
+    const {
+      pokemons,
+      pokemon,
+      favorite,
+      getAllPokemons,
+      getOnePokemon,
+      addFavorite,
+      removeFavorite,
+    } = usePokemon();
     const search = ref("");
     const searchList = ref([]);
     const showModal = ref(false);
@@ -93,7 +105,7 @@ export default {
         await getOnePokemon(search.value);
         searchList.value = [{ ...pokemon.value }];
 
-        console.log(searchList.value)
+        console.log(searchList.value);
 
         loading.value = false;
       } catch (error) {
@@ -103,14 +115,32 @@ export default {
     };
 
     const toggleFavorite = (pokemon) => {
-      const isFavorite = favorite.value.some(el => el.name === pokemon.name)
+      const isFavorite = favorite.value.some((el) => el.name === pokemon.name);
 
-      if(isFavorite) {
-        removeFavorite(pokemon)
+      if (isFavorite) {
+        removeFavorite(pokemon);
       } else {
-        addFavorite(pokemon)
+        addFavorite(pokemon);
       }
-    }
+    };
+
+    const shared = (pokemon) => {
+      const type = pokemon?.types?.map((type) => type.type.name).join(", ");
+      const array = [
+        `Name: ${pokemon?.name}`,
+        `Weight: ${pokemon?.weight}`,
+        `Height: ${pokemon?.height}`,
+        `Types: ${type}`,
+      ];
+
+      const input = document.createElement("input");
+
+      input.setAttribute("value", array.join(", "));
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input);
+    };
 
     onMounted(getAll);
 
@@ -124,7 +154,8 @@ export default {
       searchList,
       loading,
       error,
-      toggleFavorite
+      toggleFavorite,
+      shared,
     };
   },
 };

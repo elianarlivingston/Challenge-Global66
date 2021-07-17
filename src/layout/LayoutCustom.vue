@@ -19,7 +19,7 @@ import { NavbarBottom } from "../components/index";
 
 export default {
   name: "LayoutCustom",
-  components: { NavbarBottom }
+  components: { NavbarBottom },
 };
 </script>
 
