@@ -7,7 +7,11 @@ const routes = [
         path: '/',
         name: 'welcome',
         component: LayoutDefault,
-        children: Welcome 
+        children: [{
+            path: '',
+            name: '',
+            component: Welcome
+        }] 
     },
     {
         path: '/discover',
