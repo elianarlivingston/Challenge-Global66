@@ -44,9 +44,10 @@ export default function usePokemon() {
     })
     
     const _pokemon = computed(() => {
-        if(Object.keys(pokemon.value).length === 0) return {}
+        if(pokemon.value === null) return {}
+        if( Object.keys(pokemon.value).length === 0) return {}
 
-        const isFavorite = favorite.value.some(el => el.name === pokemon.value.name)
+        const isFavorite = favorite.value.some(el => el.name === pokemon.value?.name)
 
         return { ...pokemon.value, favorite: isFavorite }
     })
